@@ -4,8 +4,8 @@ h-lang is a small language by antlr4
 ### Roadmap
 
  - MVP 0.1版本
-    - [ ] 初始项目
-    - [ ] 编写语法文件
+    - [x] 初始项目
+    - [x] 编写语法文件
     - [ ] 实现数字加减乘除法
     - [ ] 支持括号嵌套
     - [ ] 支持赋值语句
