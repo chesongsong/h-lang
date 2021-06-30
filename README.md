@@ -1,5 +1,5 @@
-# hs-lang
-hs-lang is a small language by antlr4
+# h-lang
+h-lang is a small language by antlr4
 
 ### Roadmap
 
