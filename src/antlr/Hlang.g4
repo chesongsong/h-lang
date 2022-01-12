@@ -2,32 +2,32 @@ grammar Hlang;
 @header {
    package antlr;
 }
-prog: (decl | expr)+ ;
+prog:   stat+ ;
 
-decl: ID EQ expr;
+// -------------给每个备选分支打标签
 
-expr
-    : expr op = (MUL | DIV ) expr   # MulDivExpr
-    | expr op = ( ADD | SUB ) expr   # AddSubExpr
-    | NUM                       # NumExpr
-    | ID                        # IDExpr
-    | LPAREN expr RPAREN        # ParenExpr
+stat:   expr NEWLINE                # printExpr
+    |   ID '=' expr NEWLINE         # assign
+    |   NEWLINE                     # blank
     ;
 
-MUL     : '*' ;
-DIV     : '/' ;
-ADD     : '+' ;
-SUB     : '-' ;
-LPAREN  : '(' ;
-RPAREN  : ')' ;
+expr:   expr op=('*'|'/') expr      # MulDiv
+    |   expr op=('+'|'-') expr      # AddSub
+    |   INT                         # int
+    |   ID                          # id
+    |   '(' expr ')'                # parens
+    ;
 
-ID      : LETTER (LETTER | DIGIT)*  ;
-NUM     : [0-9]+ ;
-EQ      : '=' ;
-COMMENT : '//' ~[\r\n]* '\r'? '\n'? -> channel(HIDDEN);
-WS      : [ \r\n\t]+ -> channel(HIDDEN);
+// -------------给运算符号设置名字，也形成词法符号
 
-fragment
-LETTER  : [a-zA-Z];
-fragment
-DIGIT   : [0-9] ;
+MUL :   '*' ;
+DIV :   '/' ;
+ADD :   '+' ;
+SUB :   '-' ;
+
+// -------------剩下的是和之前一样的词法符号
+
+ID  :   [\u4e00-\u9fa5_a-zA-Z]+ ;      // 标识符：一个到多个英文字母
+INT :   [0-9]+ ;         // 整形值：一个到多个数字
+NEWLINE:'\r'? '\n' ;     // 换行符
+WS  :   [ \t]+ -> skip ; // 跳过空格和tab
