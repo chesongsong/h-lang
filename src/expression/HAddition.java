@@ -1,11 +1,16 @@
 package expression;
 
-public class Addition extends Expression{
-    Expression left;
-    Expression right;
+public class HAddition extends HExpression {
+    HExpression left;
+    HExpression right;
 
-    public Addition(Expression left,Expression right){
+    public HAddition(HExpression left, HExpression right){
         this.left = left;
         this.right = right;
+    }
+
+    @Override
+    public String toString() {
+        return left.toString() + " + " + right.toString();
     }
 }

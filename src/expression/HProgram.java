@@ -3,14 +3,14 @@ package expression;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Program {
-    public List<Expression> expressions;
+public class HProgram {
+    public List<HExpression> HExpressions;
 
-    public Program(){
-        this.expressions = new ArrayList<Expression>();
+    public HProgram(){
+        this.HExpressions = new ArrayList<HExpression>();
     }
 
-    public void addExpression(Expression e){
-        this.expressions.add(e);
+    public void addExpression(HExpression e){
+        this.HExpressions.add(e);
     }
 }

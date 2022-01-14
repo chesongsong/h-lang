@@ -1,9 +1,14 @@
 package expression;
 
-public class Variable extends Expression{
+public class HVariable extends HExpression {
     String id;
 
-    public Variable(String id){
+    public HVariable(String id){
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return null;
     }
 }

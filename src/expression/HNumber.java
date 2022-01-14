@@ -1,9 +1,14 @@
 package expression;
 
-public class Number extends Expression{
+public class HNumber extends HExpression {
     int num;
 
-    public Number(int num){
+    public HNumber(int num){
         this.num = num;
+    }
+
+    @Override
+    public String toString() {
+        return null;
     }
 }
