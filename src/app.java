@@ -10,9 +10,10 @@ import antlr.HlangParser;
 
 class Calc {
     public static void main(String[] args) {
-        CharStream input = CharStreams.fromString("a=1+2\nb=a*2+1\nc=a*3+2*b\n");
-//        CharStream input = CharStreams.fromString("a=2*3\n");
-//                CharStream input = CharStreams.fromString("a=true\n");
+        String input1 = "a=1+2\nb=a*2+1\nc=a*3+2*b\n";
+        String input2 = "a=2*3\\n";
+        String input3 = "a=true\\n";
+        CharStream input = CharStreams.fromString(input1);
         // 词法分析->Token流->生成语法分析器对象
         HlangLexer lexer = new HlangLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
