@@ -19,8 +19,8 @@ public class HlangParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, T__2=3, MUL=4, DIV=5, ADD=6, SUB=7, ID=8, INT=9, NEWLINE=10, 
-		WS=11;
+		T__0=1, T__1=2, T__2=3, MUL=4, DIV=5, ADD=6, SUB=7, BooleanLiteral=8, 
+		ID=9, INT=10, NEWLINE=11, WS=12;
 	public static final int
 		RULE_prog = 0, RULE_stat = 1, RULE_expr = 2;
 	private static String[] makeRuleNames() {
@@ -38,8 +38,8 @@ public class HlangParser extends Parser {
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, null, null, null, "MUL", "DIV", "ADD", "SUB", "ID", "INT", "NEWLINE", 
-			"WS"
+			null, null, null, null, "MUL", "DIV", "ADD", "SUB", "BooleanLiteral", 
+			"ID", "INT", "NEWLINE", "WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -131,7 +131,7 @@ public class HlangParser extends Parser {
 				setState(9); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << ID) | (1L << INT) | (1L << NEWLINE))) != 0) );
+			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << BooleanLiteral) | (1L << ID) | (1L << INT) | (1L << NEWLINE))) != 0) );
 			}
 		}
 		catch (RecognitionException re) {
@@ -265,8 +265,7 @@ public class HlangParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class MulDivContext extends ExprContext {
-		public Token op;
+	public static class MultiplicationContext extends ExprContext {
 		public List<ExprContext> expr() {
 			return getRuleContexts(ExprContext.class);
 		}
@@ -274,16 +273,14 @@ public class HlangParser extends Parser {
 			return getRuleContext(ExprContext.class,i);
 		}
 		public TerminalNode MUL() { return getToken(HlangParser.MUL, 0); }
-		public TerminalNode DIV() { return getToken(HlangParser.DIV, 0); }
-		public MulDivContext(ExprContext ctx) { copyFrom(ctx); }
+		public MultiplicationContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof HlangVisitor ) return ((HlangVisitor<? extends T>)visitor).visitMulDiv(this);
+			if ( visitor instanceof HlangVisitor ) return ((HlangVisitor<? extends T>)visitor).visitMultiplication(this);
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class AddSubContext extends ExprContext {
-		public Token op;
+	public static class AdditionContext extends ExprContext {
 		public List<ExprContext> expr() {
 			return getRuleContexts(ExprContext.class);
 		}
@@ -291,11 +288,40 @@ public class HlangParser extends Parser {
 			return getRuleContext(ExprContext.class,i);
 		}
 		public TerminalNode ADD() { return getToken(HlangParser.ADD, 0); }
-		public TerminalNode SUB() { return getToken(HlangParser.SUB, 0); }
-		public AddSubContext(ExprContext ctx) { copyFrom(ctx); }
+		public AdditionContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof HlangVisitor ) return ((HlangVisitor<? extends T>)visitor).visitAddSub(this);
+			if ( visitor instanceof HlangVisitor ) return ((HlangVisitor<? extends T>)visitor).visitAddition(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class SubtractionContext extends ExprContext {
+		public List<ExprContext> expr() {
+			return getRuleContexts(ExprContext.class);
+		}
+		public ExprContext expr(int i) {
+			return getRuleContext(ExprContext.class,i);
+		}
+		public TerminalNode SUB() { return getToken(HlangParser.SUB, 0); }
+		public SubtractionContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof HlangVisitor ) return ((HlangVisitor<? extends T>)visitor).visitSubtraction(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class DivisionContext extends ExprContext {
+		public List<ExprContext> expr() {
+			return getRuleContexts(ExprContext.class);
+		}
+		public ExprContext expr(int i) {
+			return getRuleContext(ExprContext.class,i);
+		}
+		public TerminalNode DIV() { return getToken(HlangParser.DIV, 0); }
+		public DivisionContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof HlangVisitor ) return ((HlangVisitor<? extends T>)visitor).visitDivision(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -317,6 +343,15 @@ public class HlangParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	public static class BooleanExprContext extends ExprContext {
+		public TerminalNode BooleanLiteral() { return getToken(HlangParser.BooleanLiteral, 0); }
+		public BooleanExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof HlangVisitor ) return ((HlangVisitor<? extends T>)visitor).visitBooleanExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 
 	public final ExprContext expr() throws RecognitionException {
 		return expr(0);
@@ -329,12 +364,11 @@ public class HlangParser extends Parser {
 		ExprContext _prevctx = _localctx;
 		int _startState = 4;
 		enterRecursionRule(_localctx, 4, RULE_expr, _p);
-		int _la;
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(29);
+			setState(30);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case INT:
@@ -356,16 +390,25 @@ public class HlangParser extends Parser {
 				match(ID);
 				}
 				break;
+			case BooleanLiteral:
+				{
+				_localctx = new BooleanExprContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(25);
+				match(BooleanLiteral);
+				}
+				break;
 			case T__1:
 				{
 				_localctx = new ParensContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(25);
-				match(T__1);
 				setState(26);
-				expr(0);
+				match(T__1);
 				setState(27);
+				expr(0);
+				setState(28);
 				match(T__2);
 				}
 				break;
@@ -373,7 +416,7 @@ public class HlangParser extends Parser {
 				throw new NoViableAltException(this);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(39);
+			setState(46);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
@@ -381,55 +424,61 @@ public class HlangParser extends Parser {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(37);
+					setState(44);
 					_errHandler.sync(this);
 					switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
 					case 1:
 						{
-						_localctx = new MulDivContext(new ExprContext(_parentctx, _parentState));
+						_localctx = new MultiplicationContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(31);
-						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
 						setState(32);
-						((MulDivContext)_localctx).op = _input.LT(1);
-						_la = _input.LA(1);
-						if ( !(_la==MUL || _la==DIV) ) {
-							((MulDivContext)_localctx).op = (Token)_errHandler.recoverInline(this);
-						}
-						else {
-							if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-							_errHandler.reportMatch(this);
-							consume();
-						}
+						if (!(precpred(_ctx, 8))) throw new FailedPredicateException(this, "precpred(_ctx, 8)");
 						setState(33);
-						expr(6);
+						match(MUL);
+						setState(34);
+						expr(9);
 						}
 						break;
 					case 2:
 						{
-						_localctx = new AddSubContext(new ExprContext(_parentctx, _parentState));
+						_localctx = new AdditionContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(34);
-						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
 						setState(35);
-						((AddSubContext)_localctx).op = _input.LT(1);
-						_la = _input.LA(1);
-						if ( !(_la==ADD || _la==SUB) ) {
-							((AddSubContext)_localctx).op = (Token)_errHandler.recoverInline(this);
-						}
-						else {
-							if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-							_errHandler.reportMatch(this);
-							consume();
-						}
+						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
 						setState(36);
-						expr(5);
+						match(ADD);
+						setState(37);
+						expr(8);
+						}
+						break;
+					case 3:
+						{
+						_localctx = new DivisionContext(new ExprContext(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_expr);
+						setState(38);
+						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
+						setState(39);
+						match(DIV);
+						setState(40);
+						expr(7);
+						}
+						break;
+					case 4:
+						{
+						_localctx = new SubtractionContext(new ExprContext(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_expr);
+						setState(41);
+						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
+						setState(42);
+						match(SUB);
+						setState(43);
+						expr(6);
 						}
 						break;
 					}
 					} 
 				}
-				setState(41);
+				setState(48);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
 			}
@@ -456,27 +505,33 @@ public class HlangParser extends Parser {
 	private boolean expr_sempred(ExprContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 0:
-			return precpred(_ctx, 5);
+			return precpred(_ctx, 8);
 		case 1:
-			return precpred(_ctx, 4);
+			return precpred(_ctx, 7);
+		case 2:
+			return precpred(_ctx, 6);
+		case 3:
+			return precpred(_ctx, 5);
 		}
 		return true;
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\r-\4\2\t\2\4\3\t"+
-		"\3\4\4\t\4\3\2\6\2\n\n\2\r\2\16\2\13\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3"+
-		"\3\5\3\27\n\3\3\4\3\4\3\4\3\4\3\4\3\4\3\4\5\4 \n\4\3\4\3\4\3\4\3\4\3\4"+
-		"\3\4\7\4(\n\4\f\4\16\4+\13\4\3\4\2\3\6\5\2\4\6\2\4\3\2\6\7\3\2\b\t\2\60"+
-		"\2\t\3\2\2\2\4\26\3\2\2\2\6\37\3\2\2\2\b\n\5\4\3\2\t\b\3\2\2\2\n\13\3"+
-		"\2\2\2\13\t\3\2\2\2\13\f\3\2\2\2\f\3\3\2\2\2\r\16\5\6\4\2\16\17\7\f\2"+
-		"\2\17\27\3\2\2\2\20\21\7\n\2\2\21\22\7\3\2\2\22\23\5\6\4\2\23\24\7\f\2"+
-		"\2\24\27\3\2\2\2\25\27\7\f\2\2\26\r\3\2\2\2\26\20\3\2\2\2\26\25\3\2\2"+
-		"\2\27\5\3\2\2\2\30\31\b\4\1\2\31 \7\13\2\2\32 \7\n\2\2\33\34\7\4\2\2\34"+
-		"\35\5\6\4\2\35\36\7\5\2\2\36 \3\2\2\2\37\30\3\2\2\2\37\32\3\2\2\2\37\33"+
-		"\3\2\2\2 )\3\2\2\2!\"\f\7\2\2\"#\t\2\2\2#(\5\6\4\b$%\f\6\2\2%&\t\3\2\2"+
-		"&(\5\6\4\7\'!\3\2\2\2\'$\3\2\2\2(+\3\2\2\2)\'\3\2\2\2)*\3\2\2\2*\7\3\2"+
-		"\2\2+)\3\2\2\2\7\13\26\37\')";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\16\64\4\2\t\2\4\3"+
+		"\t\3\4\4\t\4\3\2\6\2\n\n\2\r\2\16\2\13\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3"+
+		"\3\3\5\3\27\n\3\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\5\4!\n\4\3\4\3\4\3\4\3"+
+		"\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\7\4/\n\4\f\4\16\4\62\13\4\3\4\2\3\6"+
+		"\5\2\4\6\2\2\2:\2\t\3\2\2\2\4\26\3\2\2\2\6 \3\2\2\2\b\n\5\4\3\2\t\b\3"+
+		"\2\2\2\n\13\3\2\2\2\13\t\3\2\2\2\13\f\3\2\2\2\f\3\3\2\2\2\r\16\5\6\4\2"+
+		"\16\17\7\r\2\2\17\27\3\2\2\2\20\21\7\13\2\2\21\22\7\3\2\2\22\23\5\6\4"+
+		"\2\23\24\7\r\2\2\24\27\3\2\2\2\25\27\7\r\2\2\26\r\3\2\2\2\26\20\3\2\2"+
+		"\2\26\25\3\2\2\2\27\5\3\2\2\2\30\31\b\4\1\2\31!\7\f\2\2\32!\7\13\2\2\33"+
+		"!\7\n\2\2\34\35\7\4\2\2\35\36\5\6\4\2\36\37\7\5\2\2\37!\3\2\2\2 \30\3"+
+		"\2\2\2 \32\3\2\2\2 \33\3\2\2\2 \34\3\2\2\2!\60\3\2\2\2\"#\f\n\2\2#$\7"+
+		"\6\2\2$/\5\6\4\13%&\f\t\2\2&\'\7\b\2\2\'/\5\6\4\n()\f\b\2\2)*\7\7\2\2"+
+		"*/\5\6\4\t+,\f\7\2\2,-\7\t\2\2-/\5\6\4\b.\"\3\2\2\2.%\3\2\2\2.(\3\2\2"+
+		"\2.+\3\2\2\2/\62\3\2\2\2\60.\3\2\2\2\60\61\3\2\2\2\61\7\3\2\2\2\62\60"+
+		"\3\2\2\2\7\13\26 .\60";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
