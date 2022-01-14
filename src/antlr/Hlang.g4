@@ -11,10 +11,13 @@ stat:   expr NEWLINE                # printExpr
     |   NEWLINE                     # blank
     ;
 
-expr:   expr op=('*'|'/') expr      # MulDiv
-    |   expr op=('+'|'-') expr      # AddSub
+expr:   expr MUL expr               # Multiplication
+    |   expr ADD expr               # Addition
+    |   expr DIV expr               # Division
+    |   expr SUB expr               # Subtraction
     |   INT                         # int
     |   ID                          # id
+    |   BooleanLiteral              # BooleanExpr
     |   '(' expr ')'                # parens
     ;
 
@@ -24,7 +27,8 @@ MUL :   '*' ;
 DIV :   '/' ;
 ADD :   '+' ;
 SUB :   '-' ;
-
+BooleanLiteral:                 'true'
+              |                 'false';
 // -------------剩下的是和之前一样的词法符号
 
 ID  :   [\u4e00-\u9fa5_a-zA-Z]+ ;      // 标识符：一个到多个英文字母

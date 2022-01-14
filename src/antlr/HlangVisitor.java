@@ -47,19 +47,33 @@ public interface HlangVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitParens(HlangParser.ParensContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code MulDiv}
+	 * Visit a parse tree produced by the {@code Multiplication}
 	 * labeled alternative in {@link HlangParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMulDiv(HlangParser.MulDivContext ctx);
+	T visitMultiplication(HlangParser.MultiplicationContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code AddSub}
+	 * Visit a parse tree produced by the {@code Addition}
 	 * labeled alternative in {@link HlangParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitAddSub(HlangParser.AddSubContext ctx);
+	T visitAddition(HlangParser.AdditionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Subtraction}
+	 * labeled alternative in {@link HlangParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSubtraction(HlangParser.SubtractionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Division}
+	 * labeled alternative in {@link HlangParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDivision(HlangParser.DivisionContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code id}
 	 * labeled alternative in {@link HlangParser#expr}.
@@ -74,4 +88,11 @@ public interface HlangVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitInt(HlangParser.IntContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code BooleanExpr}
+	 * labeled alternative in {@link HlangParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBooleanExpr(HlangParser.BooleanExprContext ctx);
 }
