@@ -1,5 +1,7 @@
-# h-lang
-h-lang is a small language by antlr4
+# N-lang
+是一个小型的语言工具，学习性质
+用N这个名字，是我问我的老婆，起什么名字好听，她选择了一个N，我问她为什么，她说N代表了无限可能
+格局大了啊老婆！！
 
 ### Roadmap
 
