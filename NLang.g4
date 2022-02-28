@@ -1,4 +1,4 @@
-grammar Nlang;
+grammar NLang;
 @header {
    package antlr;
 }
